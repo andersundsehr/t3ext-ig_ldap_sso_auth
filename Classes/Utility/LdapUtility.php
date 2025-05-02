@@ -251,8 +251,11 @@ class LdapUtility
      * @return bool true if bind succeeded
      */
     public function bind(
+        bool $useSasl,
         ?string $dn = null,
-        #[\SensitiveParameter] ?string $password = null
+        #[\SensitiveParameter] ?string $password = null,
+        ?string $ldapSaslKeytab = null,
+        ?string $ldapSaslServicePrincipal = null,
     ): bool
     {
         // LDAP_OPT_DIAGNOSTIC_MESSAGE gets the extended error output
@@ -265,7 +268,30 @@ class LdapUtility
         $this->status['bind']['password'] = $password ? '••••••••••••' : null;
         $this->status['bind']['diagnostic'] = '';
 
-        if (!(@ldap_bind($this->connection, $dn, $password))) {
+        if ($useSasl) {
+            if (!file_exists($ldapSaslKeytab) || !is_readable($ldapSaslKeytab)) {
+                throw new \RuntimeException('The keytab file "' . $ldapSaslKeytab . '" is not readable.', 1746025301);
+            }
+            $this->status['bind']['useSasl'] = 'Yes';
+            $this->status['bind']['ldapSaslKeytab'] = $ldapSaslKeytab;
+            $this->status['bind']['ldapSaslServicePrincipal'] = $ldapSaslServicePrincipal;
+            putenv('KRB5_KTNAME=' . $ldapSaslKeytab);
+            if (!function_exists('ldap_sasl_bind')) {
+                throw new UnresolvedPhpDependencyException('Your PHP is to built with sasl support (--with-ldap-sasl)', 1746025302);
+            }
+            $bind = ldap_sasl_bind(
+                $this->connection,
+                null,
+                null,
+                'GSSAPI',
+                null,
+                $ldapSaslServicePrincipal
+            );
+        } else {
+            $bind = @ldap_bind($this->connection, $dn, $password);
+        }
+
+        if (!$bind) {
             // Could not bind to server
             $this->status['bind']['status'] = ldap_error($this->connection);
 

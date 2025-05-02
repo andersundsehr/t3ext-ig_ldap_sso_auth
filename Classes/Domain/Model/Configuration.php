@@ -57,6 +57,12 @@ class Configuration
 
     protected string $ldapBindDn = '';
 
+    protected bool $ldapSaslBind = false;
+
+    protected string $ldapSaslKeytab = '';
+
+    protected string $ldapSaslServicePrincipal = '';
+
     protected string $ldapPassword = '';
 
     protected int $groupMembership = \Causal\IgLdapSsoAuth\Library\Configuration::GROUP_MEMBERSHIP_FROM_GROUP;
@@ -248,6 +254,23 @@ class Configuration
         return $this;
     }
 
+    public function setLdapSaslBind(bool $ldapSaslBind): void
+    {
+        $this->ldapSaslBind = $ldapSaslBind;
+    }
+
+    public function setLdapSaslKeytab(string $ldapSaslKeytab): void
+    {
+        $this->ldapSaslKeytab = $ldapSaslKeytab;
+    }
+
+    public function setLdapSaslServicePrincipal(string $ldapSaslServicePrincipal): void
+    {
+        $this->ldapSaslServicePrincipal = $ldapSaslServicePrincipal;
+    }
+
+
+
     /**
      * @return bool
      */
@@ -326,6 +349,21 @@ class Configuration
     public function getLdapPassword(): string
     {
         return $this->ldapPassword;
+    }
+
+    public function isLdapSaslBind(): bool
+    {
+        return $this->ldapSaslBind;
+    }
+
+    public function getLdapSaslKeytab(): string
+    {
+        return $this->ldapSaslKeytab;
+    }
+
+    public function getLdapSaslServicePrincipal(): string
+    {
+        return $this->ldapSaslServicePrincipal;
     }
 
     /**

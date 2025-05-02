@@ -174,6 +174,9 @@ class ConfigurationRepository
             'ldap_charset' => 'ldapCharset',
             'ldap_host' => 'ldapHost',
             'ldap_timeout' => 'ldapTimeout',
+            'ldap_sasl_bind' => 'ldapSaslBind',
+            'ldap_sasl_keytab' => 'ldapSaslKeytab',
+            'ldap_sasl_service_principal' => 'ldapSaslServicePrincipal',
             'ldap_binddn' => 'ldapBindDn',
             'ldap_password' => 'ldapPassword',
             'be_users_basedn' => 'backendUsersBaseDn',
@@ -190,6 +193,7 @@ class ConfigurationRepository
             'fe_groups_mapping' => 'frontendGroupsMapping',
         ];
 
+        $row['ldap_sasl_bind'] = (bool)$row['ldap_sasl_bind'];
         foreach ($mapping as $fieldName => $propertyName) {
             $object->_setProperty($propertyName, $row[$fieldName]);
         }

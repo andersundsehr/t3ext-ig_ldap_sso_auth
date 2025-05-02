@@ -26,7 +26,7 @@ return [
                     --div--;LDAP,
                         ldap_server, ldap_charset,
                     --palette--;LLL:EXT:ig_ldap_sso_auth/Resources/Private/Language/locallang_db.xlf:palette.connection;connection,
-                        ldap_binddn, ldap_password, group_membership,
+                        ldap_binddn, ldap_password, group_membership, ldap_sasl_bind, ldap_sasl_keytab, ldap_sasl_service_principal,
                     --div--;FE_USERS,
                         fe_users_basedn, fe_users_filter, fe_users_mapping, fe_groups_required, fe_groups_assigned,
                     --div--;FE_GROUPS,
@@ -177,6 +177,32 @@ return [
                 'size' => 4,
                 'eval' => 'int',
                 'default' => 0,
+            ],
+        ],
+        'ldap_sasl_bind' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:ig_ldap_sso_auth/Resources/Private/Language/locallang_db.xlf:tx_igldapssoauth_config.ldap_sasl_bind',
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle',
+                'default' => 0,
+            ],
+            'onChange' => 'reload',
+        ],
+        'ldap_sasl_keytab' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:ig_ldap_sso_auth/Resources/Private/Language/locallang_db.xlf:tx_igldapssoauth_config.ldap_sasl_keytab',
+            'config' => [
+                'type' => 'input',
+                'default' => '/app/intranet.keytab',
+            ],
+        ],
+        'ldap_sasl_service_principal' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:ig_ldap_sso_auth/Resources/Private/Language/locallang_db.xlf:tx_igldapssoauth_config.ldap_sasl_service_principal',
+            'config' => [
+                'type' => 'input',
+                'default' => 'HTTP/intranet.example.com@EXAMPLE.COM',
             ],
         ],
         'ldap_binddn' => [

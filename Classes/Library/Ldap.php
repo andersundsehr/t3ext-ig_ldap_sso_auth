@@ -89,6 +89,7 @@ class Ldap
             'ssl' => $config['ssl'],
             'timeout' => $config['timeout'],
         ];
+
         // Connect to ldap server.
         if (!$this->ldapUtility->connect(
             $config['host'],
@@ -108,8 +109,14 @@ class Ldap
         $debugConfiguration['binddn'] = $config['binddn'];
         $debugConfiguration['password'] = $config['password'] !== '' ? '••••••••••••' : '';
 
+        if ($config['ldapSaslBind']) {
+            $debugConfiguration['ldapSaslBind'] = true;
+            $debugConfiguration['ldapSaslKeytab'] = $config['ldapSaslKeytab'];
+            $debugConfiguration['ldapSaslServicePrincipal'] = $config['ldapSaslServicePrincipal'];
+        }
+
         // Bind to ldap server.
-        if (!$this->ldapUtility->bind($config['binddn'], $config['password'])) {
+        if (!$this->ldapUtility->bind($config['ldapSaslBind'], $config['binddn'], $config['password'], $config['ldapSaslKeytab'], $config['ldapSaslServicePrincipal'])) {
             $status = $this->ldapUtility->getStatus();
             $this->lastBindDiagnostic = $status['bind']['diagnostic'];
 
@@ -188,12 +195,12 @@ class Ldap
                     $this->lastBindDiagnostic = 'Empty password provided!';
 
                     return false;
-                } elseif ($this->ldapUtility->bind($this->ldapUtility->getDn(), $password)) {
+                } elseif ($this->ldapUtility->bind(false, $this->ldapUtility->getDn(), $password)) {
                     $dn = $this->ldapUtility->getDn();
 
                     // Restore last LDAP binding
                     $config = Configuration::getLdapConfiguration();
-                    $this->ldapUtility->bind($config['binddn'], $config['password']);
+                    $this->ldapUtility->bind($config['ldapSaslBind'], $config['binddn'], $config['password'], $config['ldapSaslKeytab'], $config['ldapSaslServicePrincipal']);
                     $this->lastBindDiagnostic = '';
 
                     return $dn;

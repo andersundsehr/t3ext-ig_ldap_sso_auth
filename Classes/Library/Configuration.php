@@ -150,6 +150,9 @@ class Configuration
         static::$ldap['tlsReqcert'] = $configuration->isLdapTlsReqcert();
         static::$ldap['ssl'] = $configuration->isLdapSsl();
         static::$ldap['binddn'] = $configuration->getLdapBindDn();
+        static::$ldap['ldapSaslBind'] = $configuration->isLdapSaslBind();
+        static::$ldap['ldapSaslKeytab'] = $configuration->getLdapSaslKeytab();
+        static::$ldap['ldapSaslServicePrincipal'] = $configuration->getLdapSaslServicePrincipal();
         static::$ldap['password'] = $configuration->getLdapPassword();
         static::$ldap['timeout'] = $configuration->getLdapTimeout();
     }

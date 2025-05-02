@@ -109,6 +109,15 @@
 			<trans-unit id="tx_igldapssoauth_config.ldap_password">
 				<source>Password</source>
 			</trans-unit>
+			<trans-unit id="tx_igldapssoauth_config.ldap_sasl_bind">
+				<source>Use sasl bind (with keytab)</source>
+			</trans-unit>
+			<trans-unit id="tx_igldapssoauth_config.ldap_sasl_keytab">
+				<source>Absolute path to keytab</source>
+			</trans-unit>
+			<trans-unit id="tx_igldapssoauth_config.ldap_sasl_service_principal">
+				<source>Service principal</source>
+			</trans-unit>
 
 			<trans-unit id="tx_igldapssoauth_config.group_membership">
 				<source>Relation between groups and users</source>
