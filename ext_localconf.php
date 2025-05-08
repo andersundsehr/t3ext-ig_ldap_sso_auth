@@ -28,7 +28,7 @@ defined('TYPO3') || die();
     // Service configuration
     $subTypesArr = [];
     $subTypes = '';
-    if ($config['enableFELDAPAuthentication'] ?? false) {
+    if ($config['enableFELDAPAuthentication'] || $config['enableFESSO']) {
         $subTypesArr[] = 'getUserFE';
         $subTypesArr[] = 'authUserFE';
     }
