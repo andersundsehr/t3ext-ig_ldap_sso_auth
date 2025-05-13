@@ -279,7 +279,7 @@ class LdapUtility
             if (!function_exists('ldap_sasl_bind')) {
                 throw new UnresolvedPhpDependencyException('Your PHP is to built with sasl support (--with-ldap-sasl)', 1746025302);
             }
-            $bind = ldap_sasl_bind(
+            $bind = @ldap_sasl_bind(
                 $this->connection,
                 null,
                 null,
